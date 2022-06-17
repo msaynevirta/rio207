@@ -1,0 +1,52 @@
+Parameters,,
+Limiting link,DL,
+Cell edge throughput [Mbps],3,
+Carrier frequency [MHz],2600,
+Signal bandwidth [MHz],20,
+Number of PRBs,100,From bw
+Allocated bandwidth [kHz],18000,based on number of prbs
+Shannon alpha,0.75,
+Shannon beta,1.25,
+BS antenna height [m],30,chosen value
+UE antenna height [m],1.5,chosen value
+Coverage probability,0.95,
+Shadowing std dev [dB],6,
+Shadowing Ks/sigma,1.64,based on coverage prob.
+Load,0.75,
+HARQ retransmissions,4,
+TMA,yes,
+Indoor propagation,deep,
+Transmission,,
+Transmit power per antenna [dBm],46,
+Number of transmit antennas,2,
+BS total transmit power [dB],49.0102999566398,
+BS antenna gain [dBi],19,
+Cable losses [dB],3,
+TMA insertion loss [dB],0.5,
+EIRP [dBm],64.5102999566398,
+Reception,,
+Target SINR [dB],-7.30783822906183,"approx. shannon formula, solve SNR"
+Thermal noise density [dBm/Hz],-174,background noise from boltzmann an room temp
+Noise power in the band [dBm],-101.447274948967,
+UE noise factor [dB],8,typical value for 4G UEs 
+UE antenna gain [dBi],0,typical value
+Antenna diversity gain [dB],3,typical value
+FDPS scheduling gain [dB],3,given value
+HARQ gain [dB],6.02059991327962,solved from amount of retransmissions
+Protocol overhead [%],29,value for 20 MHz bandwidth
+Protocol overhead [dB],1.48741651280925,
+Sensitivity [dBm],-111.288296578499,
+Margins ,,
+SIRmin [dB],-2,based on hb and coverage prob.
+Interference margin [dB],1.08429970015883,"based on sirmin, target sinr and load"
+Shadowing margin [dB],9.84,
+Body loss [dB],3,recommended figure
+Indoor propagation margin [dB],18,first wall 15 dB + deep indoor 3 dB
+Total margins [dB],31.9242997001588,
+Cell range,,
+MAPL [dB],143.87429683498,
+Environment,urban,
+Hata A,141.653780755985,
+Hata B,35.2248557815862,
+Hata C,-2.94265239868263,
+Cell range,0.953892073233767,
