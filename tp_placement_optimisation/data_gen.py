@@ -34,5 +34,5 @@ def rand_coords(n_c1=100, n_c2=150, n_u=250, mu1=[2000, 7500], mu2=[7000, 3000],
     c_1 = rand_gauss(n_c1, mu1, sigmas1, max_u).round().astype(int) # cluster 1
     c_2 = rand_gauss(n_c2, mu2, sigmas2, max_u).round().astype(int) # cluster 2
     coords = np.vstack([c_1, c_2, r])
-    # ind = np.random.permutation(n_c1 + n_c2 + n_u) # used for shuffling the concat'd array
-    return coords
+
+    return coords[coords[:, 0].argsort()]
