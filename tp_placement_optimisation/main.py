@@ -33,5 +33,9 @@ def main():
     print(SA.user_coords[:,2])
     SA.add_bs(100)
     print(SA.user_coords[:,2])
+    SA.remove_bs(0)
+    print(SA.user_coords[:,2])
+    SA.move_bs(100, 199)
+    print(SA.user_coords[:,2])
 
 main()

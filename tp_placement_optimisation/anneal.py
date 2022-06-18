@@ -71,20 +71,26 @@ class Anneal(object):
             self.bs_sites[bs_idx, 2] = True # mark bs_site to be in use
             self.N_bs += 1
 
-    def remove_bs():
+    def remove_bs(self, bs_idx):
         """
         A free BS site is chosen at random and a BS is placed at this location.
         Returns the coordinates of a certain BS site from self.bs_choices to
         self.bs_sites.
         """
-        pass
+        if self.bs_sites[bs_idx, 2]:
+            self.user_coords[:,2] = np.where( self.user_coords[:,2] == bs_idx + 1, \
+                                              0,
+                                              self.user_coords[:,2] )
+            self.bs_sites[bs_idx, 2] = False # mark bs_site to be in use
+            self.N_bs -= 1
 
-    def move_bs():
+    def move_bs(self, old_idx, new_idx):
         """
         A free BS site is chosen at random and a BS is placed at this location.
         Swaps two sets of coordinates between self.bs_choices and self.bs_sites.
         """
-        pass
+        self.remove_bs(old_idx)
+        self.add_bs(new_idx)
 
     def energy(self):
         """
