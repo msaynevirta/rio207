@@ -28,14 +28,7 @@ def main():
 
     SA = Anneal(ue, S, B_max, R_ue, C_bs, R_cell)
 
-    print(SA.user_coords)
-    SA.add_bs(0)
-    print(SA.user_coords[:,2])
-    SA.add_bs(100)
-    print(SA.user_coords[:,2])
-    SA.remove_bs(0)
-    print(SA.user_coords[:,2])
-    SA.move_bs(100, 199)
-    print(SA.user_coords[:,2])
+    print(SA.user_coords_candidate)
+    SA.anneal()
 
 main()
