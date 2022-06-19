@@ -1,5 +1,6 @@
 from data_gen import *
 from anneal import Anneal
+import matplotlib.pyplot as plt
 
 def main():
     # Dataset related constants
@@ -20,15 +21,17 @@ def main():
     ue = rand_coords(N_c1, N_c2, N_u, max_u=max_u) # user coordinates with default mu & sigma values
     S = rand_uniform(N_s, max_u) # possible BS sites
 
-    print(ue)
-
     # Add columns for ue / bs status (ue -> bs index serving / -1, bs -> in use / not)
     ue = np.c_[ue, np.full((ue.shape[0], 1), False)]
     S = np.c_[S, np.full((S.shape[0], 1), False)]
 
     SA = Anneal(ue, S, B_max, R_ue, C_bs, R_cell)
-
-    print(SA.user_coords_candidate)
     SA.anneal()
+    
+    fig, (ax1, ax2) = plt.subplots(2)
+    SA.plot_energy(ax1)
+    SA.plot_scatter_bs_ue(ax2)
+    plt.show()
+
 
 main()

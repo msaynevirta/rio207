@@ -21,11 +21,11 @@ class Anneal(object):
         self.user_coords = np.array(user_coords) # UE locations and status (served / not)
         self.bs_sites = np.array(bs_sites) # possible BS sites and status (in use / not)
 
-        self.user_coords_candidate = np.array(user_coords)
-        self.bs_sites_candidate = np.array(bs_sites)
+        self.user_coords_candidate = np.copy(user_coords)
+        self.bs_sites_candidate = np.copy(bs_sites)
 
-        self.user_coords_best = np.array(user_coords)
-        self.bs_sites_best = np.array(bs_sites)
+        self.user_coords_best = np.copy(user_coords)
+        self.bs_sites_best = np.copy(bs_sites)
 
         self.B_max = B_max # Max number of deployed BSs
         self.R_ue = R_ue # Individual UE revenue
@@ -34,7 +34,7 @@ class Anneal(object):
         self.R_cell = R_cell # cell radius
 
         self.T = 5000 # starting temperature
-        self.alpha = 0.995
+        self.alpha = 0.997
         self.stopping_temperature = 1e-8
         self.stopping_iter = 100000
         self.iteration = 1
@@ -43,6 +43,14 @@ class Anneal(object):
         self.energy_best = float("Inf")
 
         self.energy_list = []
+
+    def all_users_in_range(self, bs_idx):
+        h = self.bs_sites[bs_idx, 0]
+        k = self.bs_sites[bs_idx, 1]
+
+        return np.array( ( (self.user_coords[:, 0]-h)**2 \
+                             + (self.user_coords[:, 1]-k)**2 ) \
+                             < self.R_cell**2 )
 
     def new_users_in_range(self, bs_idx):
         """
@@ -54,14 +62,9 @@ class Anneal(object):
 
         @return boolean np.array of new users
         """
-        h = self.bs_sites_candidate[bs_idx, 0]
-        k = self.bs_sites_candidate[bs_idx, 1]
+        in_range = self.all_users_in_range(bs_idx)
 
-        in_range = np.array( ( (self.user_coords_candidate[:, 0]-h)**2 \
-                             + (self.user_coords_candidate[:, 1]-k)**2 ) \
-                             < self.R_cell**2 )
-
-        inv_user_coords = np.logical_not(self.user_coords_candidate[:,2])
+        inv_user_coords = np.logical_not(self.user_coords[:,2])
 
         return np.logical_and(in_range, inv_user_coords)
 
@@ -73,13 +76,14 @@ class Anneal(object):
         """
         bs_idx = bs_idxs[0]
 
-        if not self.bs_sites_candidate[bs_idx, 2] \
-           and np.count_nonzero(self.bs_sites_candidate[:,2]) < self.B_max:
+        if not self.bs_sites[bs_idx, 2] \
+           and np.count_nonzero(self.bs_sites[:,2]) < self.B_max:
+            #print("adding bs", bs_idx)
             # mark new users in range of the BS
             self.user_coords_candidate[:,2] =  \
                                     np.where( self.new_users_in_range(bs_idx), \
                                     bs_idx + 1, \
-                                    self.user_coords_candidate[:,2] )
+                                    self.user_coords[:,2] )
 
             self.bs_sites_candidate[bs_idx, 2] = True # mark bs_site to be in use
 
@@ -91,11 +95,12 @@ class Anneal(object):
         """
         bs_idx = bs_idxs[1]
 
-        if self.bs_sites_candidate[bs_idx, 2]:
+        if self.bs_sites[bs_idx, 2]:
+            #print("removing bs", bs_idx)
             self.user_coords_candidate[:,2] = \
-                      np.where( self.user_coords_candidate[:,2] == bs_idx + 1, \
+                      np.where( self.user_coords[:,2] == bs_idx + 1, \
                       0,
-                      self.user_coords_candidate[:,2] )
+                      self.user_coords[:,2] )
             self.bs_sites_candidate[bs_idx, 2] = False # mark bs_site to be in use
 
     def move_bs(self, bs_idxs):
@@ -106,14 +111,26 @@ class Anneal(object):
         self.remove_bs(bs_idxs)
         self.add_bs(bs_idxs)
 
-    def candidate_energy(self):
+    def candidate_revenue(self):
         """
-        Calculate the energy function to evaluate a candidate. 
+        Computes the total revenue produced by certain candidate.
         """
         N_ue = np.count_nonzero(self.user_coords_candidate[:,2])
         N_bs = np.count_nonzero(self.bs_sites_candidate[:,2])
 
-        return -(N_ue * self.R_ue - N_bs * self.C_bs)
+        return (N_ue * self.R_ue - N_bs * self.C_bs)
+
+    def candidate_emf_exposure(self, in_range):
+        """
+        Computes the total EMF exposure induced by the candidate.
+        """
+        
+
+    def candidate_energy(self):
+        """
+        Calculate the energy function to evaluate a candidate. 
+        """
+        return -self.candidate_revenue()
 
     def p_accept(self, energy):
         """
@@ -123,21 +140,20 @@ class Anneal(object):
         return np.exp(-abs(energy - self.energy_cur) / self.T)
 
     def new_candidate(self):
-        bs_idxs = self.rng.integers(0, high=self.B_max, size=2)
+        bs_idxs = self.rng.integers(0, high=self.bs_sites.shape[0], size=2)
         methods = [self.add_bs, self.remove_bs, self.move_bs]
 
         choice(methods)(bs_idxs) # run one of the three elemental ops
 
     def accept_cur(self, energy):
         self.energy_cur = energy
-        self.user_coords = self.user_coords_candidate
-        self.bs_sites = self.bs_sites_candidate
+        self.user_coords = np.copy(self.user_coords_candidate)
+        self.bs_sites = np.copy(self.bs_sites_candidate)
 
     def accept_best(self, energy):
-        self.energy_cur = energy
-        self.user_coords_best = self.user_coords_candidate
-        self.bs_sites_best = self.bs_sites_candidate
-
+        self.energy_best = energy
+        self.user_coords_best = np.copy(self.user_coords_candidate)
+        self.bs_sites_best = np.copy(self.bs_sites_candidate)
 
     def accept(self):
         """
@@ -145,47 +161,74 @@ class Anneal(object):
         Accept with probabilty p_accept(..) if candidate is worse.
         """
         energy = self.candidate_energy()
+        #print("new candidate energy", energy)
         if energy < self.energy_cur:
             self.accept_cur(energy)
 
             if energy < self.energy_best:
+                print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
+
                 self.accept_best(energy)
         else:
             if self.rng.random() < self.p_accept(energy):
                 self.accept_cur(energy)
 
     def initial_config(self):
-        N_bs = self.rng.integers(0, high=self.B_max)
-        for i in range(N_bs):
+        N_bs = self.rng.integers(low=1, high=self.B_max)
+        print(N_bs)
+        for _ in range(N_bs):
             self.new_candidate()
 
         energy = self.candidate_energy()
 
         self.accept_cur(energy)
-        self.accept_cur(energy)
+        #self.accept_best(energy)
 
-        print("best candidate energy", self.energy_best)
+        #print("initial candidate energy", self.energy_best)
 
     # start with set of e.g. 15 chosen bs sites?
     def anneal(self):
         """
-        Execute simulated annealing algorithm.
+        Execute the simulated annealing algorithm.
         """
-        # Initialize with a random amount of BS sites chosen
-        self.initial_config()
-
         print("Starting annealing.")
+
+        self.initial_config()
+        print("BS sites, start =", np.count_nonzero(self.bs_sites[:,2]))
+
         while self.T >= self.stopping_temperature and self.iteration < self.stopping_iter:
             self.new_candidate()
             self.accept()
             self.T *= self.alpha
             self.iteration += 1
 
-            self.energy_list.append(self.energy_cur)
+            users = int(np.count_nonzero(self.user_coords_best[:,2]))
+            bs = int(np.count_nonzero(self.bs_sites_best[:,2]))
 
-        print("Best fitness obtained: ", self.energy_best)
-        improvement = 100 * (self.energy_list[0] - self.energy_best) / (self.energy_list[0])
-        print(f"Improvement over greedy heuristic: {improvement : .2f}%")
+            self.energy_list.append([self.energy_cur, self.energy_best])
+            #self.energy_list[1].append(users)
+            #print("users served:", np.count_nonzero(self.user_coords[:,2]), "bs sites:", np.count_nonzero(self.bs_sites[:,2]), "energy", self.energy_cur)
 
-        print(self.bs_sites_best)
-        print(np.count_nonzero(self.bs_sites_best[:,2]))
+        print("Best energy obtained: ", self.energy_best)
+        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
+        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
+
+    def plot_energy(self, ax):
+        """
+        Plot the current and best energy through iterations.
+        """
+        ax.set_title('Evolution of energy')
+        ax.plot([i for i in range(len(self.energy_list))], self.energy_list)
+
+    def plot_scatter_bs_ue(self, ax):
+        ue = np.copy(self.user_coords_best)
+        mask = (ue[:, 2] != 0)
+        ue = ue[mask, :]
+
+        bs = np.copy(self.bs_sites_best)
+        mask = (bs[:, 2] != 0)
+        bs = bs[mask, :]
+
+        ax.set_title('BS sites and served UEs')
+        ax.scatter(ue[:,0], ue[:,1], c=ue[:,2])
+        ax.scatter(bs[:,0], bs[:,1], c='black', s=200, marker="1")
