@@ -143,8 +143,10 @@ class Anneal(object):
         """
         Calculate the energy function to evaluate a candidate. 
         """
+        emf_exposure = self.opt_params['include_emf_exposure'] \
+                     * np.max(self.ue_emf_candidate) **3
 
-        return -self.candidate_revenue() + np.max(self.ue_emf_candidate) **3
+        return -self.candidate_revenue() + emf_exposure
 
     def p_accept(self, energy):
         """
@@ -223,9 +225,9 @@ class Anneal(object):
 
         print("Highest EMF exposure [V/m]:", np.max(self.ue_emf_best))
 
-        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), \
-              "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), \
-              "energy:", self.energy_best)
+        print("Users served:", np.count_nonzero(self.user_coords_best[:,2]), \
+              "-- bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), \
+              "-- energy:", self.energy_best)
 
     def plot_energy(self, ax):
         """
