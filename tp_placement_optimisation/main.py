@@ -17,6 +17,8 @@ def main():
 
     max_u = 10000 # dimensions km
     R_cell = 954 # cell radius in meters
+    h_bs = 30 # cell tower height in meters
+    h_ue = 1.5 # ue height in meters
 
     ue = rand_coords(N_c1, N_c2, N_u, max_u=max_u) # user coordinates with default mu & sigma values
     S = rand_uniform(N_s, max_u) # possible BS sites
@@ -25,7 +27,17 @@ def main():
     ue = np.c_[ue, np.full((ue.shape[0], 1), False)]
     S = np.c_[S, np.full((S.shape[0], 1), False)]
 
-    SA = Anneal(ue, S, B_max, R_ue, C_bs, R_cell)
+    opt_params = { 'B_max' :  B_max,
+                   'R_ue' :   R_ue,
+                   'C_bs' :    C_bs }
+
+    ue_bs_params = { 'R_cell' :  954,
+                     'h_bs' :   30.0,
+                     'h_ue' :    1.5,
+                     'P_tx_bs' :  46,
+                     'G_ant_bs' : 19 }
+
+    SA = Anneal(ue, S, opt_params, ue_bs_params)
     SA.anneal()
     
     fig, (ax1, ax2) = plt.subplots(2)

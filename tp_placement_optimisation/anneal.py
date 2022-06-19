@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from random import choice
 
 class Anneal(object):
-    def __init__(self, user_coords, bs_sites, B_max, R_ue, C_bs, R_cell):
+    def __init__(self, user_coords, bs_sites, opt_params, ue_bs_params):
         """
         Constructor for the BS / UE simulated anneal class
         
@@ -27,11 +27,12 @@ class Anneal(object):
         self.user_coords_best = np.copy(user_coords)
         self.bs_sites_best = np.copy(bs_sites)
 
-        self.B_max = B_max # Max number of deployed BSs
-        self.R_ue = R_ue # Individual UE revenue
-        self.C_bs = C_bs # BS operational cost
+        self.ue_emf = np.full(user_coords.shape[0], 0, dtype=np.float64)
+        self.ue_emf_candidate = np.full(user_coords.shape[0], 0, dtype=np.float64)
+        self.ue_emf_best = np.full(user_coords.shape[0], 0, dtype=np.float64)
 
-        self.R_cell = R_cell # cell radius
+        self.opt_params = opt_params
+        self.ue_bs_params = ue_bs_params
 
         self.T = 5000 # starting temperature
         self.alpha = 0.997
@@ -47,10 +48,12 @@ class Anneal(object):
     def all_users_in_range(self, bs_idx):
         h = self.bs_sites[bs_idx, 0]
         k = self.bs_sites[bs_idx, 1]
+        y_dist_sq = (self.ue_bs_params['h_bs'] - self.ue_bs_params['h_ue'])**2
 
         return np.array( ( (self.user_coords[:, 0]-h)**2 \
-                             + (self.user_coords[:, 1]-k)**2 ) \
-                             < self.R_cell**2 )
+                             + (self.user_coords[:, 1]-k)**2 \
+                             + y_dist_sq ) \
+                             < self.ue_bs_params['R_cell']**2 )
 
     def new_users_in_range(self, bs_idx):
         """
@@ -77,8 +80,7 @@ class Anneal(object):
         bs_idx = bs_idxs[0]
 
         if not self.bs_sites[bs_idx, 2] \
-           and np.count_nonzero(self.bs_sites[:,2]) < self.B_max:
-            #print("adding bs", bs_idx)
+           and np.count_nonzero(self.bs_sites[:,2]) < self.opt_params['B_max']:
             # mark new users in range of the BS
             self.user_coords_candidate[:,2] =  \
                                     np.where( self.new_users_in_range(bs_idx), \
@@ -86,6 +88,7 @@ class Anneal(object):
                                     self.user_coords[:,2] )
 
             self.bs_sites_candidate[bs_idx, 2] = True # mark bs_site to be in use
+            self.candidate_emf_exposure(bs_idx, 1)
 
     def remove_bs(self, bs_idxs):
         """
@@ -96,12 +99,13 @@ class Anneal(object):
         bs_idx = bs_idxs[1]
 
         if self.bs_sites[bs_idx, 2]:
-            #print("removing bs", bs_idx)
             self.user_coords_candidate[:,2] = \
                       np.where( self.user_coords[:,2] == bs_idx + 1, \
                       0,
                       self.user_coords[:,2] )
+
             self.bs_sites_candidate[bs_idx, 2] = False # mark bs_site to be in use
+            self.candidate_emf_exposure(bs_idx, -1)
 
     def move_bs(self, bs_idxs):
         """
@@ -118,19 +122,29 @@ class Anneal(object):
         N_ue = np.count_nonzero(self.user_coords_candidate[:,2])
         N_bs = np.count_nonzero(self.bs_sites_candidate[:,2])
 
-        return (N_ue * self.R_ue - N_bs * self.C_bs)
+        return (N_ue * self.opt_params['R_ue'] - N_bs * self.opt_params['C_bs'])
 
-    def candidate_emf_exposure(self, in_range):
+    def candidate_emf_exposure(self, bs_idx, sign):
         """
         Computes the total EMF exposure induced by the candidate.
         """
+        h = self.bs_sites[bs_idx, 0]
+        k = self.bs_sites[bs_idx, 1]
+
+        num = (30 * self.ue_bs_params['P_tx_bs'] * self.ue_bs_params['G_ant_bs'])
+        y_dist_sq = (self.ue_bs_params['h_bs'] - self.ue_bs_params['h_ue'])**2
         
+        self.ue_emf_candidate = self.ue_emf + num / ( (self.user_coords[:, 0]-h)**2 \
+                                             + (self.user_coords[:, 1]-k)**2 \
+                                             + y_dist_sq ) \
+                                       * sign
 
     def candidate_energy(self):
         """
         Calculate the energy function to evaluate a candidate. 
         """
-        return -self.candidate_revenue()
+
+        return -self.candidate_revenue() + np.max(self.ue_emf_candidate) **3
 
     def p_accept(self, energy):
         """
@@ -149,11 +163,13 @@ class Anneal(object):
         self.energy_cur = energy
         self.user_coords = np.copy(self.user_coords_candidate)
         self.bs_sites = np.copy(self.bs_sites_candidate)
+        self.ue_emf = self.ue_emf_candidate
 
     def accept_best(self, energy):
         self.energy_best = energy
         self.user_coords_best = np.copy(self.user_coords_candidate)
         self.bs_sites_best = np.copy(self.bs_sites_candidate)
+        self.ue_emf_best = self.ue_emf_candidate
 
     def accept(self):
         """
@@ -161,37 +177,29 @@ class Anneal(object):
         Accept with probabilty p_accept(..) if candidate is worse.
         """
         energy = self.candidate_energy()
-        #print("new candidate energy", energy)
         if energy < self.energy_cur:
             self.accept_cur(energy)
 
             if energy < self.energy_best:
-                print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
-
                 self.accept_best(energy)
         else:
             if self.rng.random() < self.p_accept(energy):
                 self.accept_cur(energy)
 
     def initial_config(self):
-        N_bs = self.rng.integers(low=1, high=self.B_max)
-        print(N_bs)
+        N_bs = self.rng.integers(low=1, high=self.opt_params['B_max'])
         for _ in range(N_bs):
             self.new_candidate()
 
         energy = self.candidate_energy()
 
         self.accept_cur(energy)
-        #self.accept_best(energy)
 
-        #print("initial candidate energy", self.energy_best)
-
-    # start with set of e.g. 15 chosen bs sites?
     def anneal(self):
         """
         Execute the simulated annealing algorithm.
         """
-        print("Starting annealing.")
+        print("Starting annealing\n---------------")
 
         self.initial_config()
         print("BS sites, start =", np.count_nonzero(self.bs_sites[:,2]))
@@ -205,13 +213,19 @@ class Anneal(object):
             users = int(np.count_nonzero(self.user_coords_best[:,2]))
             bs = int(np.count_nonzero(self.bs_sites_best[:,2]))
 
-            self.energy_list.append([self.energy_cur, self.energy_best])
-            #self.energy_list[1].append(users)
-            #print("users served:", np.count_nonzero(self.user_coords[:,2]), "bs sites:", np.count_nonzero(self.bs_sites[:,2]), "energy", self.energy_cur)
+            self.energy_list.append([self.energy_cur, self.energy_best, np.max(self.ue_emf)])
 
+        print("\nFinished annealing\n---------------")
         print("Best energy obtained: ", self.energy_best)
-        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
-        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), "energy:", self.energy_best)
+
+        print("EMF over 6 V/m:", np.count_nonzero(self.ue_emf_best > 6.0), \
+              "-- EMF over 0.6 V/m:", np.count_nonzero(self.ue_emf_best > 0.6))
+
+        print("Highest EMF exposure [V/m]:", np.max(self.ue_emf_best))
+
+        print("users served:", np.count_nonzero(self.user_coords_best[:,2]), \
+              "bs sites:", np.count_nonzero(self.bs_sites_best[:,2]), \
+              "energy:", self.energy_best)
 
     def plot_energy(self, ax):
         """
