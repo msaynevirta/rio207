@@ -1,3 +1,5 @@
 # BS placement optimisation with Simulated Annealing - RIO207
 
 Check the Jupyter Notebook for project report. The necessary methods are implemented in separate python source code files.
+
+The algorithm is partially implemented following Cihan Ceyhan's Python implementation from 2016, available under the MIT Licence (https://github.com/chncyhn/simulated-annealing-tsp/).
