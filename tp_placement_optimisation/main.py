@@ -27,9 +27,11 @@ def main():
     ue = np.c_[ue, np.full((ue.shape[0], 1), False)]
     S = np.c_[S, np.full((S.shape[0], 1), False)]
 
-    opt_params = { 'B_max' :  B_max,
-                   'R_ue' :   R_ue,
-                   'C_bs' :    C_bs }
+    opt_params = { 'B_max' :                B_max, # maximum amount of deployed BSs
+                    'R_ue' :                 R_ue, # revenue per served UE
+                    'C_bs' :                 C_bs, # operating cost of a BS
+                    'include_emf_exposure' :    0, # include emf exposure in optimisation, 0=False, 1=True
+                 }
 
     ue_bs_params = { 'R_cell' :  954,
                      'h_bs' :   30.0,
