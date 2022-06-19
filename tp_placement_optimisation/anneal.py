@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from random import choice
 
 class Anneal(object):
@@ -206,7 +205,8 @@ class Anneal(object):
         self.initial_config()
         print("BS sites, start =", np.count_nonzero(self.bs_sites[:,2]))
 
-        while self.T >= self.stopping_temperature and self.iteration < self.stopping_iter:
+        while self.T >= self.stopping_temperature \
+              and self.iteration < self.stopping_iter:
             self.new_candidate()
             self.accept()
             self.T *= self.alpha
@@ -215,7 +215,7 @@ class Anneal(object):
             users = int(np.count_nonzero(self.user_coords_best[:,2]))
             bs = int(np.count_nonzero(self.bs_sites_best[:,2]))
 
-            self.energy_list.append([self.energy_cur, self.energy_best, np.max(self.ue_emf)])
+            self.energy_list.append([self.energy_cur, self.energy_best])
 
         print("\nFinished annealing\n---------------")
         print("Best energy obtained: ", self.energy_best)
