@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{siunitx}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm
+ }
+
+\title{TD: 5G NR mmW Link Budget}
+\author{Markus Säynevirta}
+\date{June 2022}
+
+\begin{document}
+
+\thispagestyle{plain}
+
+\large
+\textbf{RIO207 - Ingénierie radio}
+
+\large
+TD: 5G NR mmW Link Budget\\
+\textit{Markus Säynevirta}
+\vspace{0.5cm}
+
+\section{Transmission}
+\subsection{EIRP and transit diversity gain (question 1)}
+
+EIRP of the transmitter can be calculated with the formula 
+
+\begin{align*}
+     \mathrm{EIRP(dBm)} = P_{tx}\mathrm{(dBm)} - L\mathrm{(dB)} + G\mathrm{(dBi)}
+\end{align*}
+
+In relation to the given parameters, gains comprise only of the transmit diversity gain, as antenna element gain is defined as \(G_t = 0\ \mathrm{dBi}\). Transmit diversity typically yields an additional gain of \(G =3\ \mathrm{dB}\), thus we arrive at \(\mathrm{EIRP} = 26\ \mathrm{dB}\).
+
+\section{Reception}
+\subsection{Target SINR (question 2)}
+
+Target SINR can be formulated from the Shannon theorem by rearranging the formula to solve for the signal-to-noise ratio SNR. For the sake of simplicity, interference is considered as noise, and thus SINR is assimilated as SNR.
+
+\begin{gather*}
+     \mathrm{C} = B\log_2 (1+\mathrm{SNR}) \\
+     \Leftrightarrow \mathrm{SNR} = 2^{\frac{C}{B}} - 1
+\end{gather*}
+
+Given the parameters of \(B = \SI{20}{\mega bps}\) and \(C = \SI{100}{\mega\hertz}\), we get a \(\mathrm{SINR_{target}} = 0.148\) or \(\SI{-8.276}{\deci\bel}\).
+
+\subsection{Noise power at receiver (question 3)}
+
+We can compute noise power with the formula 
+
+\begin{align*}
+     \mathrm{N} &= N_0 W \cdot \mathrm{NF}
+\end{align*}
+
+Noise figure NF was given as \(\SI{3}{\deci\bel}\) yielding an overall noise power of \(-174 + 10 \log_{10} (W) = \SI{-94}{\deci\bel m}\).
+
+\subsection{Receiver gains (question 4)}
+
+The BS under consideration has 128 antenna elements (\#AE) and 64 TXRU (\#TXRU) while it uses 2 polarizations (\#AP) for receive diversity. The antenna element gain is given as \(G_{ae} =  \SI{8}{\deci\bel i}\).
+
+Receiver array gain can be calculated as
+
+\begin{align*}
+    G_{array} = 10 \log_{10} (\mathrm{\#AE}/\mathrm{\#AP}) = \SI{18.061}{\deci\bel}
+\end{align*}
+
+Receiver antenna gain is equal to the gain of an individual antenna element or \(G_{\mathrm{antenna}} = \SI{8}{\deci\bel i}\). Diversity gain \(G_{\mathrm{diversity}} = \SI{3}{\deci\bel}\), as the two polarizations are used in receive diversity.
+
+\subsection{Sensitivity of the receiver (question 5)}
+
+HARQ gain can be calculated from the amount of retransmissions. Given 4 HARQ retransmissions, we get a HARQ gain of \(G_{\mathrm{HARQ}} = 10 \log_{10} (N) = \SI{6.02}{\deci\bel}\). Additionally, scheduling yields typically an additional gain of  \(\SI{3}{\deci\bel}\). With this information and considering the results worked out in the previous subsections, the sensitivity of the receiver can be calculated as
+
+\begin{align*}
+    S_{receiver} = \mathrm{SINR_{target}} + N + \mathrm{NF} - \sum G = \SI{-137.35}{\deci\bel m}
+\end{align*}
+
+\section{Margins}
+\subsection{Shadowing margin (question 6)}
+Shadowing margin can be calculated with Jakes' formula:
+
+\begin{align*}
+      K_s= \sigma Q^{-1}(P_{out})
+\end{align*}
+
+Given a shadowing standard deviation of \(\sigma = 6\) and assuming a constraint of \(0.99\), we get a shadowing margin of \(\SI{13.98}{\deci\bel}\).
+
+\subsection{Hand and body loss (question 7)}
+\subsection{Indoor penetration loss (question 8)}
+3GPP technical report 38.901 defines a O2I penetration loss model:
+
+\begin{align*}
+    \mathrm{PL} = \mathrm{PL_b} + \mathrm{PL_{tw}} + \mathrm{PL_{in}} + N(0, \sigma^2_P)
+\end{align*}
+
+The different path losses can be calculated from the following equations assuming the low-loss model, while the standard deviation is defined as \(\SI{4.4}{\deci\bel}\) in the model. \(P_b\) is the basic outdoor path loss. We will use the PL’\_UMa-NLOS loss model similar to the cell radius modelling in section \ref{cell_r}.
+
+\begin{gather*}
+    \mathrm{PL_{tw}} = 5-10\log_{10} (0.3 \cdot 10^{\frac{-L_{\mathrm{glass}}}{10}} + 0.7 \cdot 10^{\frac{-L_{\mathrm{concrete}}}{10}}) \\ \\
+    \mathrm{PL_{in}} = 0.5 \cdot d_{2D-in}
+\end{gather*}
+
+Penetration losses in different materials can be calculated from the table 7.4.3-1, giving values \(L_{\mathrm{glass}} = \SI{7.6}{\decibel}\) and \(L_{\mathrm{concrete}} = \SI{117}{\decibel}\) at a frequency of 28\ GHz.
+
+Solving the penetration component of the path loss equation and summing it with the indoor loss and standard deviation components gives us an overall margin figure of
+
+\begin{gather*}
+    \mathrm{PL_{tw} + \mathrm{PL_{in} + \sigma^2_P = \SI{22.72}{\deci\bel}}}
+\end{gather*}
+
+\section{Cell radius}
+\label{cell_r}
+
+\section{Deployment scenario}
+Paris 13th arrondissement
+
+\end{document}
