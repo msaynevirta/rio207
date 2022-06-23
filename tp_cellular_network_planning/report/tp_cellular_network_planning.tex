@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{siunitx}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm
+ }
+
+\title{TP: Cellular Network Planning on a 2D Map}
+\author{Markus Säynevirta}
+\date{June 2022}
+
+\begin{document}
+
+\thispagestyle{plain}
+
+\large
+\textbf{RIO207 - Ingénierie radio}
+
+\large
+TP: Cellular Network Planning on a 2D Map\\
+\textit{Markus Säynevirta}
+\vspace{0.5cm}
+
+\section{Pre-dimensioning based on pilot coverage}
+\subsection{Link budget (question 1)}
+
+In- and outdoor sensitivities were computed for the pilot signal as part of a link budget spreadsheet included in the exercise zip archive. Table \ref{tab:link_budget} presents an excerpt containing the sensitivity values for both coverage scenarios as well as cell radii computed for these same scenarios.
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \multicolumn{3}{|c|}{\textbf{Sensitivities}} \\ \hline
+    Sensitivity, indoor {[}dBm{]}          & -92.92  &                                       \\ \hline
+    Sensitivity, outdoor {[}dBm{]}         & -107.92 &                                       \\ \hline
+    \multicolumn{3}{|c|}{\textbf{Cell range}} \\ \hline
+    MAPL indoor {[}dB{]}                   & 140.43  & given value                           \\ \hline
+    MAPL outdoor {[}dB{]}                  & 155.43  & given value                           \\ \hline
+    Hata A                                 & 134.35  & given value                           \\ \hline
+    Hata B                                 & 38.98   &                                       \\ \hline
+    Hata C                                 & 0.44    &                                       \\ \hline
+    Cell range, indoor {[}km{]}            & 1.47    &                                       \\ \hline
+    Cell range, outdoor {[}km{]}           & 3.56    &                                       \\ \hline
+    \end{tabular}
+\caption{An excerpt from the link budget.}
+\label{tab:link_budget}
+\end{table}
+
+\subsection{Site coverage and number (question 2)}
+
+Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two previously outlined deployment scenarios. Numbers have been computed by dividing the service area of \(\SI{100}{\kilo\metre\squared}\) with the area of the hexagonal cell calculated from the equation \(A_c = \frac{3 \sqrt{3} R^2}{8} \).
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Number of cells, indoor}} \\ \hline
+    Cell area {[}km²{]}                    & 1.40                                        \\ \hline
+    Number of cells                        & 72.00                                       \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Number of cells, outdoor}} \\ \hline
+    Cell area {[}km²{]}                    & 8.25                                        \\ \hline
+    Number of cells                        & 13.00                                       \\ \hline
+    \end{tabular}
+    \caption{Number of cells in the different deployment scenarios.}
+    \label{tab:cell_numbers}
+\end{table}
+
+\section{Cell planning based on coverage}
+\subsection{Site planning proposal (question 3)}
+\subsection{Cell loading (question 4)}
+\section{Capacity study}
+\subsection{Pre-dimensioning based on cell capacity}
+\subsection{Cell planning based on capacity}
+\end{document}
