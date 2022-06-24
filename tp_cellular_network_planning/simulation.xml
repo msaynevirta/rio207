@@ -1,0 +1,683 @@
+<?xml version="1.0"?><radioData>
+	<system>UMTS</system>
+	<predictionRadius>10000</predictionRadius>
+	<frequency>900.0</frequency>
+	<receiverHeight>1.7</receiverHeight>
+	<transmitterFeederLoss>3.0</transmitterFeederLoss>
+	<transmittersPerSite>3</transmittersPerSite>
+	<mobileNoiseFactor>8.0</mobileNoiseFactor>
+	<maxPower>43.0</maxPower>
+	<pilotPower>33.0</pilotPower>
+	<commonChannelsPower>33.0</commonChannelsPower>
+	<maxHsdpaPower>42.0</maxHsdpaPower>
+	<hsdpaCellLoad>0.2</hsdpaCellLoad>
+	<availableCarriers>1</availableCarriers>
+	<hsdpaThroughputSNRCurve>parametres/HSDPA_debit_SNR.txt</hsdpaThroughputSNRCurve>
+	<area>
+		<xMin>0</xMin>
+		<xMax>10000</xMax>
+		<yMin>0</yMin>
+		<yMax>10000</yMax>
+		<resolution>50</resolution>
+	</area>
+	<polygons>
+		<polygon name="centre-ville">polygones/centre-ville.txt</polygon>
+		<polygon name="habitations">polygones/habitations.txt</polygon>
+		<polygon name="hameau1">polygones/hameau1.txt</polygon>
+		<polygon name="hameau2">polygones/hameau2.txt</polygon>
+		<polygon name="hameau3">polygones/hameau3.txt</polygon>
+		<polygon name="hameau4">polygones/hameau4.txt</polygon>
+		<polygon name="hameau5">polygones/hameau5.txt</polygon>
+		<polygon name="hameau6">polygones/hameau6.txt</polygon>
+		<polygon name="hameau7">polygones/hameau7.txt</polygon>
+		<polygon name="hameau8">polygones/hameau8.txt</polygon>
+	</polygons>
+	<altitudeMap>cartographies/altitude.txt</altitudeMap>
+	<clutters>
+		<clutterType name="rural" color="#ffff99">0</clutterType>
+		<clutterType name="eau" color="#13db">1</clutterType>
+		<clutterType name="foret" color="#339933">2</clutterType>
+		<clutterType name="habitations" color="#c96631">3</clutterType>
+		<clutterType name="centre-ville" color="#582f18">4</clutterType>
+		<clutterType name="industrie" color="#848484">5</clutterType>
+		<clutterMap>cartographies/clutters.txt</clutterMap>
+	</clutters>
+	<trafficMap>cartographies/trafic.txt</trafficMap>
+	<cpichCoverageClasses>
+		<cpichCoverageClass name="indoor" color="#50a030">-92.92</cpichCoverageClass>
+		<cpichCoverageClass name="outdoor" color="#ffff99">-107.92</cpichCoverageClass>
+		<cpichCoverageClass name="non couvert" color="#e00000">-Infinity</cpichCoverageClass>
+	</cpichCoverageClasses>
+	<maxHSDPAThroughputClasses>
+		<maxHSDPAThroughputClass name="10 Mbps" color="#50a030">10.0</maxHSDPAThroughputClass>
+		<maxHSDPAThroughputClass name="2 Mbps" color="#e0e040">2.0</maxHSDPAThroughputClass>
+		<maxHSDPAThroughputClass name="1 Mbps" color="#ffff99">1.0</maxHSDPAThroughputClass>
+		<maxHSDPAThroughputClass name="500 kbps" color="#ff8040">0.5</maxHSDPAThroughputClass>
+		<maxHSDPAThroughputClass name="100 kbps" color="#e00000">0.1</maxHSDPAThroughputClass>
+		<maxHSDPAThroughputClass name="0 kbps" color="#404040">0.0</maxHSDPAThroughputClass>
+	</maxHSDPAThroughputClasses>
+	<cellLoadClasses>
+		<cellLoadClass name="100%" color="#404040">Infinity</cellLoadClass>
+		<cellLoadClass name="&lt;100%" color="#e00000">1.0</cellLoadClass>
+		<cellLoadClass name="&lt;75%" color="#ff8040">0.75</cellLoadClass>
+		<cellLoadClass name="&lt;50%" color="#ffff99">0.5</cellLoadClass>
+		<cellLoadClass name="&lt;25%" color="#40ff40">0.25</cellLoadClass>
+	</cellLoadClasses>
+	<antennas>
+		<antenna name="H63_V16_G15">antennes/antenne_900_H63_V16_G15_T0.txt</antenna>
+		<antenna name="H65_V7_G18">antennes/antenne_900_H65_V07_G18_T0.txt</antenna>
+		<antenna name="H90_V12_G14">antennes/antenne_900_H90_V12_G14_T0.txt</antenna>
+		<antenna name="Omni_V16_G7">antennes/antenne_900_Omni_V16_G07_T0.txt</antenna>
+		<antenna name="Omni_V7_G11">antennes/antenne_900_Omni_V07_G11_T0.txt</antenna>
+	</antennas>
+	<sites>
+		<site id="1" name="site 1">
+			<x>4200</x>
+			<y>6100</y>
+			<height>8.0</height>
+			<transmitterUMTS id="1" name="Emetteur 1-1">
+				<azimuth>45.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="2" name="Emetteur 1-2">
+				<azimuth>165.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="3" name="Emetteur 1-3">
+				<azimuth>285.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="2" name="site 2">
+			<x>2650</x>
+			<y>5500</y>
+			<height>8.0</height>
+			<transmitterUMTS id="4" name="Emetteur 2-1">
+				<azimuth>225.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="5" name="Emetteur 2-2">
+				<azimuth>345.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="6" name="Emetteur 2-3">
+				<azimuth>105.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="3" name="site 3">
+			<x>4450</x>
+			<y>4300</y>
+			<height>8.0</height>
+			<transmitterUMTS id="7" name="Emetteur 3-1">
+				<azimuth>45.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="8" name="Emetteur 3-2">
+				<azimuth>165.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="9" name="Emetteur 3-3">
+				<azimuth>285.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="4" name="site 4">
+			<x>2650</x>
+			<y>7400</y>
+			<height>8.0</height>
+			<transmitterUMTS id="10" name="Emetteur 4-1">
+				<azimuth>15.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="11" name="Emetteur 4-2">
+				<azimuth>135.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="12" name="Emetteur 4-3">
+				<azimuth>255.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="6" name="site 6">
+			<x>1000</x>
+			<y>8500</y>
+			<height>8.0</height>
+			<transmitterUMTS id="16" name="Emetteur 6-1">
+				<azimuth>350.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="17" name="Emetteur 6-2">
+				<azimuth>290.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="18" name="Emetteur 6-3">
+				<azimuth>120.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="7" name="site 7">
+			<x>2900</x>
+			<y>3600</y>
+			<height>8.0</height>
+			<transmitterUMTS id="19" name="Emetteur 7-1">
+				<azimuth>225.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="20" name="Emetteur 7-2">
+				<azimuth>345.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H90_V12_G14</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="21" name="Emetteur 7-3">
+				<azimuth>105.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="8" name="site 8">
+			<x>2075</x>
+			<y>1925</y>
+			<height>8.0</height>
+			<transmitterUMTS id="22" name="Emetteur 8-1">
+				<azimuth>200.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="23" name="Emetteur 8-2">
+				<azimuth>320.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="24" name="Emetteur 8-3">
+				<azimuth>440.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="9" name="site 9">
+			<x>5150</x>
+			<y>2750</y>
+			<height>8.0</height>
+			<transmitterUMTS id="25" name="Emetteur 9-1">
+				<azimuth>35.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="26" name="Emetteur 9-2">
+				<azimuth>155.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="27" name="Emetteur 9-3">
+				<azimuth>275.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="10" name="site 10">
+			<x>5100</x>
+			<y>1300</y>
+			<height>8.0</height>
+			<transmitterUMTS id="28" name="Emetteur 10-1">
+				<azimuth>200.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="29" name="Emetteur 10-2">
+				<azimuth>320.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="30" name="Emetteur 10-3">
+				<azimuth>420.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="11" name="site 11">
+			<x>6300</x>
+			<y>5100</y>
+			<height>8.0</height>
+			<transmitterUMTS id="31" name="Emetteur 11-1">
+				<azimuth>90.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="32" name="Emetteur 11-2">
+				<azimuth>220.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="33" name="Emetteur 11-3">
+				<azimuth>320.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="13" name="site 13">
+			<x>8000</x>
+			<y>1750</y>
+			<height>8.0</height>
+			<transmitterUMTS id="37" name="Emetteur 13-1">
+				<azimuth>65.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="38" name="Emetteur 13-2">
+				<azimuth>170.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="39" name="Emetteur 13-3">
+				<azimuth>295.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="14" name="site 14">
+			<x>6250</x>
+			<y>7250</y>
+			<height>8.0</height>
+			<transmitterUMTS id="40" name="Emetteur 14-1">
+				<azimuth>45.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="41" name="Emetteur 14-2">
+				<azimuth>170.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="42" name="Emetteur 14-3">
+				<azimuth>305.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="15" name="site 15">
+			<x>9250</x>
+			<y>2850</y>
+			<height>9.0</height>
+			<transmitterUMTS id="43" name="Emetteur 15-1">
+				<azimuth>25.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="44" name="Emetteur 15-2">
+				<azimuth>145.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="45" name="Emetteur 15-3">
+				<azimuth>265.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H63_V16_G15</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="16" name="site 16">
+			<x>8150</x>
+			<y>7750</y>
+			<height>8.0</height>
+			<transmitterUMTS id="46" name="Emetteur 16-1">
+				<azimuth>300.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="47" name="Emetteur 16-2">
+				<azimuth>75.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="48" name="Emetteur 16-3">
+				<azimuth>210.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="17" name="site 17">
+			<x>9000</x>
+			<y>5250</y>
+			<height>8.0</height>
+			<transmitterUMTS id="49" name="Emetteur 17-1">
+				<azimuth>40.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="50" name="Emetteur 17-2">
+				<azimuth>160.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="51" name="Emetteur 17-3">
+				<azimuth>280.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>Omni_V16_G7</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+		<site id="18" name="site 18">
+			<x>4250</x>
+			<y>8500</y>
+			<height>8.0</height>
+			<transmitterUMTS id="52" name="Emetteur 18-1">
+				<azimuth>180.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="53" name="Emetteur 18-2">
+				<azimuth>340.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>H65_V7_G18</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+			<transmitterUMTS id="54" name="Emetteur 18-3">
+				<azimuth>45.0</azimuth>
+				<tilt>0.0</tilt>
+				<feederLoss>3.0</feederLoss>
+				<antenna>Omni_V16_G7</antenna>
+				<maxPower>43.0</maxPower>
+				<cpichPower>33.0</cpichPower>
+				<commonChannelsPower>33.0</commonChannelsPower>
+				<maxHsdpaPower>42.0</maxHsdpaPower>
+				<nbCarriers>1</nbCarriers>
+			</transmitterUMTS>
+		</site>
+	</sites>
+</radioData>
