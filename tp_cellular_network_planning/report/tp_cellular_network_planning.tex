@@ -57,7 +57,7 @@ In- and outdoor sensitivities were computed for the pilot signal as part of a li
 
 \subsection{Site coverage and number (question 2)}
 
-Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two previously outlined deployment scenarios. Numbers have been computed by dividing the service area of \(\SI{100}{\kilo\metre\squared}\) with the area of the hexagonal cell calculated from the equation \(A_c = \frac{3 \sqrt{3} R^2}{8} \) and taking a ceiling function of the result.
+Table \ref{tab:cell_numbers} presents the approximate numbers of cells in the two previously outlined deployment scenarios. These numbers have been computed by dividing the service area of \(\SI{100}{\kilo\metre\squared}\) with the area of the hexagonal cell calculated from the equation \(A_c = \frac{3 \sqrt{3} R^2}{8} \) and taking a ceiling function of the result.
 
 \begin{table}[!htb]
     \centering
@@ -74,10 +74,9 @@ Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two pr
     \label{tab:cell_numbers}
 \end{table}
 
-\newpage
 \section{Cell planning based on coverage}
 \subsection{Site planning proposal (question 3)}
-Figure \ref{fig:q3_pilot_coverage} present the proposed BS site layout and the resulting pilot coverage.
+Figure \ref{fig:q3_pilot_coverage} present the proposed BS site layout and the resulting pilot coverage. The number of 10 deployed sites is somewhat lower than the lower bound of 13 gained in the link budget based coverage study.
 
 \begin{figure}[!htb]
     \centering
@@ -86,6 +85,9 @@ Figure \ref{fig:q3_pilot_coverage} present the proposed BS site layout and the r
     \label{fig:q3_pilot_coverage}
 \end{figure}
 
+The cell positioning of the sites gives an outdoor geographic coverage of 100\ \% while the indoor coverage remains at 45\ \%.
+
+\newpage
 \subsection{Cell loading (question 4)}
 Figure \ref{fig:q4_cell_loading} presents the resulting cell loading from the previously proposed BS site layout.
 
@@ -95,6 +97,8 @@ Figure \ref{fig:q4_cell_loading} presents the resulting cell loading from the pr
     \caption{Cell loading in the first deployment scenario.}
     \label{fig:q4_cell_loading}
 \end{figure}
+
+As can be seen from the figure, the cells in the most densely populated urban regions are the most loaded with figures ranging from \(< 75 \% - < 100 \%\). Higher site density helps though, and these regions remain still served overall, at least in terms of outdoor coverage. Based on the results of the simulation, 100\ \% of the outdoor traffic demand is being served.
 
 \section{Capacity study}
 \subsection{Pre-dimensioning based on cell capacity (questions 5 - 7)}
@@ -112,7 +116,7 @@ Evaluating approximate cell capacity requires us to solve SINR figures for each 
 
 \(\mathrm{EIRP_{dBm}}\) and \(\mathrm{PL}\) are the transmitter's effectively isotropically radiated power and the path loss predicted by the Okumura-Hata propagation model, both in \si{\deci\bel m}. \(G_{rx}\) is the receiver antenna gain in \si{\deci\bel i}, which is in this case just 0.
 
-Exact SINR figures have been computed in the spreadsheet included in the exercise zip archive.
+The exact SINR figures have been computed in the spreadsheet included in the exercise zip archive.
 
 Average data rate was computed from the throughputs solved for the different parts of the coverage area by taking an area-weighted harmonic mean
 
@@ -132,10 +136,15 @@ The results are presented in table \ref{tab:data_rates}. The overall cell data r
     \multicolumn{1}{|l|}{Number of sites}              & 14   \\ \hline
     \end{tabular}
     \label{tab:data_rates}
-    \caption{Average data rate solved by taking a weighted harmonic mean. Number of BS sites has been calculated from the overall cell data rate.}
+    \caption{Average data rate solved by taking a weighted harmonic mean. Number of BS sites has been calculated from the total cell data rate.}
 \end{table}
 
+\newpage
 \subsection{Cell planning based on capacity (question 8)}
+
+Figures \ref{fig:q8_pilot_coverage} and \ref{fig:q8_cell_loading} present the pilot signal coverage and cell loading of the second deployment scenario with a total of 16 BS sites.
+
+Based on the results of the simulation, the chosen positioning gives an outdoor pilot coverage of 100\ \%. The network serves 100\ \% of the outdoor and 94\ \% of the indoor traffic demand.
 
 \begin{figure}[!htb]
     \centering
@@ -150,6 +159,7 @@ The results are presented in table \ref{tab:data_rates}. The overall cell data r
     \caption{Cell loading in the second deployment scenario.}
     \label{fig:q8_cell_loading}
 \end{figure}
+
 
 \end{document}
 
