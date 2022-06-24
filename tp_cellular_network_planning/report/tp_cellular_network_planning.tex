@@ -57,7 +57,7 @@ In- and outdoor sensitivities were computed for the pilot signal as part of a li
 
 \subsection{Site coverage and number (question 2)}
 
-Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two previously outlined deployment scenarios. Numbers have been computed by dividing the service area of \(\SI{100}{\kilo\metre\squared}\) with the area of the hexagonal cell calculated from the equation \(A_c = \frac{3 \sqrt{3} R^2}{8} \).
+Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two previously outlined deployment scenarios. Numbers have been computed by dividing the service area of \(\SI{100}{\kilo\metre\squared}\) with the area of the hexagonal cell calculated from the equation \(A_c = \frac{3 \sqrt{3} R^2}{8} \) and taking a ceiling function of the result.
 
 \begin{table}[!htb]
     \centering
@@ -74,10 +74,82 @@ Table \ref{tab:cell_numbers} presents approximate numbers of cells in the two pr
     \label{tab:cell_numbers}
 \end{table}
 
+\newpage
 \section{Cell planning based on coverage}
 \subsection{Site planning proposal (question 3)}
+Figure \ref{fig:q3_pilot_coverage} present the proposed BS site layout and the resulting pilot coverage.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{images/q3_pilot_coverage.png}
+    \caption{Pilot coverage in the first deployment scenario.}
+    \label{fig:q3_pilot_coverage}
+\end{figure}
+
 \subsection{Cell loading (question 4)}
+Figure \ref{fig:q4_cell_loading} presents the resulting cell loading from the previously proposed BS site layout.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{images/q4_cell_loading.png}
+    \caption{Cell loading in the first deployment scenario.}
+    \label{fig:q4_cell_loading}
+\end{figure}
+
 \section{Capacity study}
-\subsection{Pre-dimensioning based on cell capacity}
-\subsection{Cell planning based on capacity}
+\subsection{Pre-dimensioning based on cell capacity (questions 5 - 7)}
+Evaluating approximate cell capacity requires us to solve SINR figures for each of the \(\SI{200}{\metre}\) radii concentric rings that the BS coverage area is divided into. SINR can be calculated from the equation
+
+\begin{gather*}
+    \mathrm{SINR} = P_{rx} - N - M_{\mathrm{interference}}
+\end{gather*}
+
+\(P_{rx}\) and \(N\) are the received signal power and noise power in the allocated bandwidth in \si{\deci\bel m}. \(M_{\mathrm{interference}}\) is the interference margin in \si{\deci\bel}. The figure for \(N\) can be taken from the previously computed link budget while \(\mathrm{M_{interference}}\) has been given in the exercise description. Received signal power can be computed from the equation
+
+\begin{gather*}
+    P_{rx} = \mathrm{EIRP_{dBm}} + G_{rx} - \mathrm{PL}
+\end{gather*}
+
+\(\mathrm{EIRP_{dBm}}\) and \(\mathrm{PL}\) are the transmitter's effectively isotropically radiated power and the path loss predicted by the Okumura-Hata propagation model, both in \si{\deci\bel m}. \(G_{rx}\) is the receiver antenna gain in \si{\deci\bel i}, which is in this case just 0.
+
+Exact SINR figures have been computed in the spreadsheet included in the exercise zip archive.
+
+Average data rate was computed from the throughputs solved for the different parts of the coverage area by taking an area-weighted harmonic mean
+
+\begin{gather*}
+    C_{mean} = \left( \frac{\sum\limits_{i=1}^n A_i C_i^{-1}}{\sum\limits_{i=1}^n A_i} \right)^{-1}.
+\end{gather*}
+
+The results are presented in table \ref{tab:data_rates}. The overall cell data rate is the mean multiplied by three and the number of required sites can be solved from the figure by dividing the service area with it and taking a ceiling function of the result. As we can see, the expected number of sites matches closely the lower bound for the number obtained from the link budget.
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{l|l|}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Results}} \\ \hline
+    \multicolumn{1}{|l|}{Average data rate {[}Mbps{]}} & 0.49 \\ \hline
+    \multicolumn{1}{|l|}{Cell data rate {[}Mbps{]}}    & 1.48 \\ \hline
+    \multicolumn{1}{|l|}{Number of sites}              & 14   \\ \hline
+    \end{tabular}
+    \label{tab:data_rates}
+    \caption{Average data rate solved by taking a weighted harmonic mean. Number of BS sites has been calculated from the overall cell data rate.}
+\end{table}
+
+\subsection{Cell planning based on capacity (question 8)}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{images/q8_pilot_coverage.png}
+    \caption{Pilot coverage in the second deployment scenario.}
+    \label{fig:q8_pilot_coverage}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{images/q8_cell_loading.png}
+    \caption{Cell loading in the second deployment scenario.}
+    \label{fig:q8_cell_loading}
+\end{figure}
+
 \end{document}
+
