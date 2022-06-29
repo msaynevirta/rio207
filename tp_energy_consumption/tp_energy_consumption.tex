@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{siunitx}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm
+ }
+
+\title{TP: Base station power consumption optimization}
+\author{Markus Säynevirta}
+\date{June 2022}
+
+\begin{document}
+
+\thispagestyle{plain}
+
+\large
+\textbf{RIO207 - Ingénierie radio}
+
+\large
+TP: Base station power consumption optimization\\
+\textit{Markus Säynevirta}
+\vspace{0.5cm}
+
+\section{Initial simulation results (question 1)}
+
+EIRP of the transmitter can be calculated with the formula 
+
+\section{Processor sharing (question 2)}
+\label{processor_sharing}
+
+We will start by computing a set of necessary system parameters by utilising the single server waiting line model.
+
+Average data rate \(R_u\) can be computed by solving the Shannon theorem for the weighted arithmetic mean of SINR figures given as parameter. As the probability values are normalized to 1, the weighted mean can be calculated from the simplified formula \(\bar{\gamma} = \sum S \cdot P\). Cell capacity can be calculated from the formula
+\begin{gather*}
+    C = W_c \log_2(1 + \bar{\gamma})
+\end{gather*}
+
+where \(W_c\) is the bandwidth of the cell.
+
+The other three return values can be computed from the given parameters and the previously computed average cell data rate by using formulas
+\begin{gather*}
+    \lambda_{max} = \frac{R_u}{B} \\
+    \rho = \frac{\lambda \cdot B}{R_u} \\
+    K = \frac{\lambda \cdot B}{R_u - \lambda \cdot B}
+\end{gather*}
+
+\(\lambda_{max}\), \(\rho\) and \(K\) correspond to the maximum allowable arrival rate, load and average number of active users. \(\lambda\) and \(B\) are the arrival rate in hertz and file size required to serve an individual user in bits.
+
+Below excerpt from a Matlab printout demonstrates the price paid for the higher SINR in the case of reuse 3.
+
+\texttt{reuse: 1 \\
+Ru: 39212559.2767 maxlambda = 19.6063 rho = 0.11272 K = 0.12704 \\
+reuse: 3 \\
+Ru: 27888573.9238 maxlambda = 13.9443 rho = 0.15849 K = 0.18834}
+
+As can be seen, average cell data rate is about \SI{11.3}{Mbits\per \second} slower in the latter case, the maximum allowable arrival rate is about 5.7 users per second lower while cell loading and average time required to serve an individual user are about 4.6 percentage points and 48 percent higher.
+
+\section{Outage probability (question 3)}
+
+Outage probability can be can be computed by dividing the amount of samples where the SINR figure is higher than the given threshold, dividing it by the total number of samples and subtracting the result from one. Outage probabilities for the situations with reuse 1 and reuse 3 were 0.95\ \% and 0\ \% respectively. As can be seen, the higher SINR of the reuse 3 situation shows a clear improvement in the outage probability.
+
+The average SINR can be computed for the UEs with figures above the threshold value by taking the mean of the numerator of the array of the outage probability calculation.
+
+\section{Power figures (question 4)}
+The missing power figures can be computed from the following equations
+\begin{gather*}
+    P_{cd} = K_u R_u (P_{cod} + P_{dec}) \\
+    P_{bh} = K_u R_u P_{bt} \\
+    P_{circuit} = P_{fix} + P_{tc} + P_{ce} + P_{cd} + P_{bh} + P_{lp} \\
+    P_{fab,bts} = \\
+    P_{tot} =\rho \frac{P_{tx}}{\eta} + P_{m} + P_{c}
+\end{gather*}
+
+Here \(P_{cd}\), \(P_{bh}\), \(P_{circuit}\), \(P_{fab,bts}\) and \(P_{tot}\) are the missing power figures and refer to coding and decoding power, backhaul power, circuit power, depreciated fabrication power and the total power consumption respectively. \(P_{cod}\) and \(P_{dec}\) refer to the intrinsic coding and decoding powers in \si{\watt\per(\giga b\per\second)}. Parameters \(K_u\) and \(R_u\) are the average cell data rate and the average time required to serve a user calculated in Section \ref{processor_sharing}. Other power figures have been outlined in more detail in the exercise instructions, lecture slides and the referenced paper discussing manufacturing power.
+
+We can now calculate the power figures for the different reuse cases.
+
+\texttt{reuse: 1 \\
+Ptot: 408.3421 Ptx: 5.7668 Pfab: 380.5175 Pcircuit: 22.0578 \\
+reuse: 3 \\
+Ptot: 410.6767 Ptx: 8.1083 Pfab: 380.5175 Pcircuit: 22.0509}
+
+As can be seen, total power consumption figures are very similar between the two cases with only a very minor difference arising from the different transmission power consumptions due. These differences are caused by the different figures for \(\rho\) used in the calculation of transmission power.
+
+Finally, we evaluate the power consumption of the two reuse cases over a larger power envelope \texttt{in.powvect = [15 16:5:46 50]}.
+
+As we can see from figure \ref{fig:Ptot_vs_Ptx}, 
+
+\end{document}
