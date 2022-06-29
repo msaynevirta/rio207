@@ -126,7 +126,7 @@ Figure \ref{fig:q6_Ptx_vs_outage} visualises outage probabilities in relation to
 
 When considering the target probability of \(< 1\ \%\), the figure shows a clear advantage for reuse 3. Examining the graphs closer gives transmit power values of 43 and \SI{32}{\decibel m} for reuse 1 and 3 respectively when considering the target outage probability. In this case, reuse 3 is clearly the better option due to its significantly lower power consumption.
 
-\section{Throughput and modified QoS constraints}
+\section{Throughput with modified QoS constraints}
 
 The simulation was modified by lowering the outage probability threshold from -7 to \SI{-13}{\decibel}. The figure \ref{fig:q7_Ptx_vs_throughput} visualises throughput in relation to the transmission power in the modified simulation scenario.
 
@@ -153,5 +153,16 @@ As can be seen, lenghtening the amortisation period has initially rather strong 
 
 \newpage
 \section{Energy consumption of a new versus old system}
+
+Figure \ref{fig:q9_Ptx_vs_Ptot_new} presents the relationship of total power consumption in relation to transmission power for the new system. The same relatinship is visualised for the old system in \ref{fig:q5_Ptx_vs_Ptot}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{images/q9_Ptx_vs_Ptot_new.png}
+    \caption{Power consumption versus transmit power in the two reuse scenarios for the new system.}
+    \label{fig:q9_Ptx_vs_Ptot_new}
+\end{figure}
+
+As can be seen comparing the two, the baseline power consumption is much greater for the new system due to the overwhelmingly large effect of the manufacturing power. It is worth though also to compare the difference in the total power consumption between the lowest and highest transmit power. The new basestation has a difference between the top and the bottom value of around \SI{14}{W} while the difference in the old system is over two and half times greater at around \SI{37}{W}.
 
 \end{document}
