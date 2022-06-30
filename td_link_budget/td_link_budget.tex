@@ -34,7 +34,6 @@ TD: 5G NR mmW Link Budget\\
 \subsection{EIRP and transit diversity gain (question 1)}
 
 EIRP of the transmitter can be calculated with the formula 
-
 \begin{align*}
      \mathrm{EIRP(dBm)} = P_{tx}\mathrm{(dBm)} - L\mathrm{(dB)} + G\mathrm{(dBi)}
 \end{align*}
@@ -44,11 +43,11 @@ In relation to the given parameters, gains comprise only of the transmit diversi
 \section{Reception}
 \subsection{Target SINR (question 2)}
 
-Target SINR can be formulated from the Shannon theorem by rearranging the formula to solve for the signal-to-noise ratio SNR. For the sake of simplicity, interference is considered as noise, and thus SINR is assimilated as SNR.
+Target SINR can be formulated from the Shannon theorem by rearranging the formula to solve for the SINR.
 
 \begin{gather*}
-     \mathrm{C} = B\log_2 (1+\mathrm{SNR}) \\
-     \Leftrightarrow \mathrm{SNR} = 2^{\frac{C}{B}} - 1
+     \mathrm{C} = B\log_2 (1+\mathrm{SINR}) \\
+     \Leftrightarrow \mathrm{SINR} = 2^{\frac{C}{B}} - 1
 \end{gather*}
 
 Given the parameters of \(B = \SI{20}{\mega bps}\) and \(C = \SI{100}{\mega\hertz}\), we get a \(\mathrm{SINR_{target}} = 0.148\) or \(\SI{-8.276}{\deci\bel}\).
@@ -56,7 +55,6 @@ Given the parameters of \(B = \SI{20}{\mega bps}\) and \(C = \SI{100}{\mega\hert
 \subsection{Noise power at receiver (question 3)}
 
 We can compute noise power with the formula 
-
 \begin{align*}
      \mathrm{N} &= N_0 W \cdot \mathrm{NF}
 \end{align*}
@@ -68,7 +66,6 @@ Noise figure NF was given as \(\SI{3}{\deci\bel}\) yielding an overall noise pow
 The BS under consideration has 128 antenna elements (\#AE) and 64 TXRU (\#TXRU) while it uses 2 polarizations (\#AP) for receive diversity. The antenna element gain is given as \(G_{ae} =  \SI{8}{\deci\bel i}\).
 
 Receiver array gain can be calculated as
-
 \begin{align*}
     G_{array} = 10 \log_{10} (\mathrm{\#AE}/\mathrm{\#AP}) = \SI{18.061}{\deci\bel}
 \end{align*}
@@ -78,7 +75,6 @@ Receiver antenna gain is equal to the gain of an individual antenna element or \
 \subsection{Sensitivity of the receiver (question 5)}
 
 HARQ gain can be calculated from the amount of retransmissions. Given 4 HARQ retransmissions, we get a HARQ gain of \(G_{\mathrm{HARQ}} = 10 \log_{10} (N) = \SI{6.02}{\deci\bel}\). Additionally, scheduling yields typically an additional gain of  \(\SI{3}{\deci\bel}\). With this information and considering the results worked out in the previous subsections, the sensitivity of the receiver can be calculated as
-
 \begin{align*}
     S_{receiver} = \mathrm{SINR_{target}} + N + \mathrm{NF} - \sum G = \SI{-137.35}{\deci\bel m}
 \end{align*}
@@ -86,23 +82,25 @@ HARQ gain can be calculated from the amount of retransmissions. Given 4 HARQ ret
 \section{Margins}
 \subsection{Shadowing margin (question 6)}
 Shadowing margin can be calculated with Jakes' formula:
-
 \begin{align*}
       K_s= \sigma Q^{-1}(P_{out})
 \end{align*}
 
-Given a shadowing standard deviation of \(\sigma = 6\) and assuming a constraint of \(0.99\), we get a shadowing margin of \(\SI{13.98}{\deci\bel}\).
+Given a shadowing standard deviation of \(\sigma = 6\) and the constraint of \(0.90\), we get a shadowing margin of \(\SI{7.68}{\deci\bel}\).
 
 \subsection{Hand and body loss (question 7)}
+Raghavan \textit{et al} present hand and body loss measurements for different hand grips and UE configurations. Considering the UE in question, we need to examine the configurations with two subarrays of two dipole antennas.
+
+Raghavan \textit{et al} gives this antenna configuration gross estimated loss figures of 0.4 to \SI{10.8}{\decibel} or 15.9 to \SI{19.7}{\decibel} depending on whether the user grips the device loosely or hard. From these figures we can propose for example an average value of \SI{5.6}{\decibel} from the loose grip range. 
 \subsection{Indoor penetration loss (question 8)}
+\label{indoor}
 3GPP technical report 38.901 defines a O2I penetration loss model:
 
 \begin{align*}
     \mathrm{PL} = \mathrm{PL_b} + \mathrm{PL_{tw}} + \mathrm{PL_{in}} + N(0, \sigma^2_P)
 \end{align*}
 
-The different path losses can be calculated from the following equations assuming the low-loss model, while the standard deviation is defined as \(\SI{4.4}{\deci\bel}\) in the model. \(P_b\) is the basic outdoor path loss. We will use the PL’\_UMa-NLOS loss model similar to the cell radius modelling in section \ref{cell_r}.
-
+The missing penetration loss and indoor loss components \(\mathrm{PL_{tw}}\) and \(\mathrm{PL_{in}}\) be calculated from the following equations. We assume the low-loss model. We will focus on the other terms in section \ref{cell_r}.
 \begin{gather*}
     \mathrm{PL_{tw}} = 5-10\log_{10} (0.3 \cdot 10^{\frac{-L_{\mathrm{glass}}}{10}} + 0.7 \cdot 10^{\frac{-L_{\mathrm{concrete}}}{10}}) \\ \\
     \mathrm{PL_{in}} = 0.5 \cdot d_{2D-in}
@@ -111,15 +109,96 @@ The different path losses can be calculated from the following equations assumin
 Penetration losses in different materials can be calculated from the table 7.4.3-1, giving values \(L_{\mathrm{glass}} = \SI{7.6}{\decibel}\) and \(L_{\mathrm{concrete}} = \SI{117}{\decibel}\) at a frequency of 28\ GHz.
 
 Solving the penetration component of the path loss equation and summing it with the indoor loss and standard deviation components gives us an overall margin figure of
-
 \begin{gather*}
     \mathrm{PL_{tw} + \mathrm{PL_{in} + \sigma^2_P = \SI{22.72}{\deci\bel}}}
 \end{gather*}
 
-\section{Cell radius}
+\subsection{Foliage loss (question 9)}
+Bas \textit{et al} describe an foliage loss model in their 2018 paper. Excess loss due to foliage attenuation can be calculated from formula
+\begin{gather*}
+    A_{ev}(d_v) = A_m [1-exp(-\frac{\gamma}{A_m}d_v + N(0,\sigma))]
+\end{gather*}
+
+where \(A_{m}\), \(\gamma\) and \(d_v\) are the maximum attenuation of a certain type of vegetation, a specified figure for attenuation per distance in \si{\decibel / \metre} and foliage depth in meters. The final term is a zero-mean normal variable with a standard deviation of \(\sigma\).
+
+The RX height of 1.5 meters matches closest the 'RX low' configuration of the study. Thus we will use the figures of 2.85, 33.34 and \SI{4.65}{\decibel} for \(\gamma\), \(A_m\) and RMSE. Given the average foliage depth of 2 meters, we get an foliage loss of \SI{11.60}{\decibel}.
+
+\subsection{Rain loss (question 10)}
+Azar \textit{et al} describe the earlier work of Zhao \textit{et al} in studying the relationship between rain attenuation as function of rain rate and carrier frequency. Their model gives an attenuation of only \SI{0.6}{\decibel} for a heavy rain rate of \SI{7.6}{\milli\metre / \hour}. The figure raises to only \SI{1.4}{\decibel} even with very heavy rainfall of \SI{25}{\milli\metre / \hour}. Both figures are for a cell radius of 200 meters, and we will use the prior in our later calculations.
+
+\section{Cell range}
 \label{cell_r}
 
-\section{Deployment scenario}
-Paris 13th arrondissement
+\subsection{MAPL (question 11)}
+MAPL is calculated by adding gains to EIRP and subtracting margins, losses and sensitivity. Table \ref{tab:mapl} is an excerpt of the larger link budget spreadsheet included in the zip package and collects the figures we already solved, as well as gives the resulting MAPL figures, which have been computed for both indoor and outdoor coverage, with the difference that the first includes the margins for penetration loss and indoor losses calculated in section \ref{indoor}.
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|l|l|}                                          \hline
+    \textbf{Variable, [unit]}                 & \textbf{Value}   \\ \hline
+    EIRP {[}dBm{]}                            & 26               \\ \hline
+    Sensitivity {[}dBm{]}                     & -137.35          \\ \hline
+    Total margins, indoor {[}dB{]}            & 46.99            \\ \hline
+    Total margins, outdoor {[}dB{]}           & 24.27            \\ \hline
+    MAPL, indoor {[}dB{]}                     & 116.37           \\ \hline
+    MAPL, outdoor {[}dB{]}                    & 139.09           \\ \hline
+    \end{tabular}
+    \caption{An excerpt from the link budget spreadsheet. EIRP, sensitivity and margins and with the resulting MAPL figures.}
+    \label{tab:mapl}
+\end{table}
+
+\subsection{Cell radius (question 11)}
+Cell radius can be solved by rearranging the path loss model suitably. We will use the already familiar penetration loss model defined by the 3GPP technical report 38.901.
+\begin{align*}
+    \mathrm{PL} = \mathrm{PL_b} + \mathrm{PL_{tw}} + \mathrm{PL_{in}} + N(0, \sigma^2_P)
+\end{align*}
+
+As mentioned, penetration and indoor loss components \(\mathrm{PL_{tw}}\) and \(\mathrm{PL_{in}}\) were solved previously in section \ref{indoor}. The standard deviation is defined as \(\SI{4.4}{\deci\bel}\) for the previously used low-loss model. These figures were treated as margins in the MAPL calculation.
+
+\(P_b\) is the basic outdoor path loss and can be solved using the PL’\_UMa-NLOS loss model outlined in table 7.4.1-1 of the 3GPP technical report. Cell range can be solved for both indoor and outdoor coverage by rearranging this equation and either including or excluding the margins for penetration and indoor losses. the PL’\_UMa-NLOS loss model is described the following equation:
+\begin{gather*}
+    13.54 + 39.08 log_{10}(d_{\mathrm{3D}}) + 20 log_{10}(f_c)
+    -0.6(h_{\mathrm{UT}}-1.5)
+\end{gather*}
+
+Solving for 3-dimensional distance \(d_{\mathrm{3D}}\) yields the following equation
+\begin{gather*}
+    d_{\mathrm{3D}} = \frac{0.427072 \cdot \exp(0.0353519 \cdot h_{UT} + 0.0589198 \cdot \mathrm{PL})}{{f_c}^{0.511771}}
+\end{gather*}
+
+Plugging in the previously calculated figures for MAPL yields distance results that can be converted to 2-dimensional cell radius by using the following equation.
+\begin{gather*}
+    d_{\mathrm{2D}} = \sqrt{{d_{\mathrm{3D}}}^2 - (h_{\mathrm{BS}} - h_{\mathrm{UT}})^2}
+\end{gather*}
+
+The process yields radius values of 71 and 295\ metres for indoor and outdoor coverages.
+
+\section{Deployment scenario 1}
+In the first deployment scenario, we examine the coverage of a mmWave system with the original target cell edge data rate of 20\ Mbps. 
+\subsection{LTE link budget (question 12)}
+An LTE link budget was computed in a spreadsheet included in the zip package. Using the COST231-Hata model, we get a cell radius of 1.16 kilometers.
+
+\subsection{Geographic coverage (questions 13-16)}
+Geographic coverage can be computed by multiplying the coverage area of a single BS by the number of deployment sites and dividing the service area by this figure. Table \ref{tab:coverage} presents the computed coverage figures for an LTE deployment and mmWave deployments with 20 and 5\ Mbps target cell edge data rates.
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{}                             & \textbf{mmWave 5 Mbps} & \textbf{mmWave 20 Mbps} & \textbf{LTE} \\ \hline
+    2D cell radius, indoor {[}km{]}       & 0.11                   & 0.07                    & 1.16         \\ \hline
+    2D cell radius, outdoor {[}km{]}      & 0.43                   & 0.29                    & -            \\ \hline
+    Coverage area, indoor {[}km²{]}       & 0.04                   & 0.02                    & 4.19         \\ \hline
+    Coverage area, outdoor {[}km²{]}      & 0.57                   & 0.27                    & -            \\ \hline
+    Geographic coverage, indoor {[}\%{]}  & 15.84                  & 6.88                    & 100.00       \\ \hline
+    Geographic coverage, outdoor {[}\%{]} & 100.00                 & 100.00                  & -            \\ \hline
+    Required number of BS sites, indoor   & 196                    & 451                     & -            \\ \hline
+    Required number of BS sites, outdoor  & 13                     & 27                      & -            \\ \hline
+    \end{tabular}
+    \caption{Cell radii, coverage areas and geographic coverage and required deployed BS sites for full coverage for mmWave and LTE deployments in the 13th arrondissement of Paris.}
+    \label{tab:coverage}
+\end{table}
+
+The computed values for the mmWave deployment indicate that the coverage is insufficient in case of both of the indoor coverage deployments. To compute the required amount BS sites for full geographic coverage, we can just divide the service area of \SI{7.15}{\kilo\metre\squared} by the cell areas. Full coverage seems to be possible to reach in the outdoor case with both mmWave configurations, although it is worth keeping in the mind that the deployment scenario is highly simplified.
 
 \end{document}
