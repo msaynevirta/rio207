@@ -43,14 +43,14 @@ In relation to the given parameters, gains comprise only of the transmit diversi
 \section{Reception}
 \subsection{Target SINR (question 2)}
 
-Target SINR can be formulated from the Shannon theorem by rearranging the formula to solve for the SINR.
+SNR can be calculated from the Shannon theorem by solving for the SNR. For the sake of simplicity, interference is considered as noise, and thus SINR is assimilated as SNR.
 
 \begin{gather*}
      \mathrm{C} = B\log_2 (1+\mathrm{SINR}) \\
      \Leftrightarrow \mathrm{SINR} = 2^{\frac{C}{B}} - 1
 \end{gather*}
 
-Given the parameters of \(B = \SI{20}{\mega bps}\) and \(C = \SI{100}{\mega\hertz}\), we get a \(\mathrm{SINR_{target}} = 0.148\) or \(\SI{-8.276}{\deci\bel}\).
+The target SINR can be computed from the ideal Shannon theorem value by subtracting the given implementation loss of \SI{3}{dB}. Given the parameters of \(B = \SI{20}{\mega bps}\) and \(C = \SI{100}{\mega\hertz}\), we get a \(\mathrm{SINR_{target}} = \SI{-11.276}{\deci\bel}\).
 
 \subsection{Noise power at receiver (question 3)}
 
@@ -76,7 +76,7 @@ Receiver antenna gain is equal to the gain of an individual antenna element or \
 
 HARQ gain can be calculated from the amount of retransmissions. Given 4 HARQ retransmissions, we get a HARQ gain of \(G_{\mathrm{HARQ}} = 10 \log_{10} (N) = \SI{6.02}{\deci\bel}\). Additionally, scheduling yields typically an additional gain of  \(\SI{3}{\deci\bel}\). With this information and considering the results worked out in the previous subsections, the sensitivity of the receiver can be calculated as
 \begin{align*}
-    S_{receiver} = \mathrm{SINR_{target}} + N + \mathrm{NF} - \sum G = \SI{-137.35}{\deci\bel m}
+    S_{receiver} = \mathrm{SINR_{target}} + N + \mathrm{NF} - \sum G = \SI{-140.35}{\deci\bel m}
 \end{align*}
 
 \section{Margins}
@@ -137,11 +137,11 @@ MAPL is calculated by adding gains to EIRP and subtracting margins, losses and s
     \begin{tabular}{|l|l|}                                          \hline
     \textbf{Variable, [unit]}                 & \textbf{Value}   \\ \hline
     EIRP {[}dBm{]}                            & 26               \\ \hline
-    Sensitivity {[}dBm{]}                     & -137.35          \\ \hline
+    Sensitivity {[}dBm{]}                     & -140.36          \\ \hline
     Total margins, indoor {[}dB{]}            & 46.99            \\ \hline
     Total margins, outdoor {[}dB{]}           & 24.27            \\ \hline
-    MAPL, indoor {[}dB{]}                     & 116.37           \\ \hline
-    MAPL, outdoor {[}dB{]}                    & 139.09           \\ \hline
+    MAPL, indoor {[}dB{]}                     & 119.37           \\ \hline
+    MAPL, outdoor {[}dB{]}                    & 142.09           \\ \hline
     \end{tabular}
     \caption{An excerpt from the link budget spreadsheet. EIRP, sensitivity and margins and with the resulting MAPL figures.}
     \label{tab:mapl}
@@ -171,10 +171,11 @@ Plugging in the previously calculated figures for MAPL yields distance results t
     d_{\mathrm{2D}} = \sqrt{{d_{\mathrm{3D}}}^2 - (h_{\mathrm{BS}} - h_{\mathrm{UT}})^2}
 \end{gather*}
 
-The process yields radius values of 71 and 295\ metres for indoor and outdoor coverages.
+The process yields radius values of 87 and 352\ metres for indoor and outdoor coverages.
 
 \section{Deployment scenario 1}
-In the first deployment scenario, we examine the coverage of a mmWave system with the original target cell edge data rate of 20\ Mbps. 
+In the first deployment scenario, we examine the coverage of a mmWave system with the original target cell edge data rate of 20\ Mbps.
+
 \subsection{LTE link budget (question 12)}
 An LTE link budget was computed in a spreadsheet included in the zip package. Using the COST231-Hata model, we get a cell radius of 1.16 kilometers.
 
@@ -186,19 +187,19 @@ Geographic coverage can be computed by multiplying the coverage area of a single
     \begin{tabular}{|l|l|l|l|}
     \hline
     \textbf{}                             & \textbf{mmWave 5 Mbps} & \textbf{mmWave 20 Mbps} & \textbf{LTE} \\ \hline
-    2D cell radius, indoor {[}km{]}       & 0.11                   & 0.07                    & 1.16         \\ \hline
-    2D cell radius, outdoor {[}km{]}      & 0.43                   & 0.29                    & -            \\ \hline
-    Coverage area, indoor {[}km²{]}       & 0.04                   & 0.02                    & 4.19         \\ \hline
-    Coverage area, outdoor {[}km²{]}      & 0.57                   & 0.27                    & -            \\ \hline
-    Geographic coverage, indoor {[}\%{]}  & 15.84                  & 6.88                    & 100.00       \\ \hline
+    2D cell radius, indoor {[}km{]}       & 0.13                   & 0.09                    & 1.16         \\ \hline
+    2D cell radius, outdoor {[}km{]}      & 0.51                   & 0.35                    & -            \\ \hline
+    Coverage area, indoor {[}km²{]}       & 0.05                   & 0.02                    & 4.19         \\ \hline
+    Coverage area, outdoor {[}km²{]}      & 0.82                   & 0.39                    & -            \\ \hline
+    Geographic coverage, indoor {[}\%{]}  & 23.13                  & 10.37                   & 100.00       \\ \hline
     Geographic coverage, outdoor {[}\%{]} & 100.00                 & 100.00                  & -            \\ \hline
-    Required number of BS sites, indoor   & 196                    & 451                     & -            \\ \hline
-    Required number of BS sites, outdoor  & 13                     & 27                      & -            \\ \hline
+    Required number of BS sites, indoor   & 135                    & 299                     & 2            \\ \hline
+    Required number of BS sites, outdoor  & 9                      & 19                      & -            \\ \hline
     \end{tabular}
     \caption{Cell radii, coverage areas and geographic coverage and required deployed BS sites for full coverage for mmWave and LTE deployments in the 13th arrondissement of Paris.}
     \label{tab:coverage}
 \end{table}
 
-The computed values for the mmWave deployment indicate that the coverage is insufficient in case of both of the indoor coverage deployments. To compute the required amount BS sites for full geographic coverage, we can just divide the service area of \SI{7.15}{\kilo\metre\squared} by the cell areas. Full coverage seems to be possible to reach in the outdoor case with both mmWave configurations, although it is worth keeping in the mind that the deployment scenario is highly simplified.
+The computed values for the mmWave deployment indicate that the coverage is insufficient in case of both of the indoor coverage deployments. To compute the required amount BS sites for full geographic coverage, we can just divide the service area of \SI{7.15}{\kilo\metre\squared} by the cell areas and taking the ceiling function of the result. Full coverage seems to be possible to reach in the outdoor case with both mmWave configurations, although it is worth keeping in the mind that the deployment scenario is highly simplified.
 
 \end{document}
