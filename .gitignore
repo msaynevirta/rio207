@@ -1,6 +1,9 @@
 ## TP network planning tool
 tp_cellular_network_planning/tool/*
 
+## TP energy consumption matlab script
+tp_energy_consumption/network_simulation.m
+
 ## Python cache files
 *.pyc
 
